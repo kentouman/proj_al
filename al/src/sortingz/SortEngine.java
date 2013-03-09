@@ -16,6 +16,11 @@ public class SortEngine {
 		return true;
 	}
 	
+	public Boolean quickSort()
+	{
+		return true;
+	}
+	
 	public Boolean mergeSort(){
 		return true;
 	}
