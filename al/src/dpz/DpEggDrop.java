@@ -1,6 +1,6 @@
 package dpz;
 
-public class DynamicProgramming {
+public class DpEggDrop {
 
 	public int eggDrop(int n, int h)
 	{

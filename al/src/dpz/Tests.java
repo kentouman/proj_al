@@ -8,9 +8,9 @@ public class Tests {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int result;
-		DynamicProgramming dp = new DynamicProgramming();
+		DpPalindromI dp = new DpPalindromI();
 		
-		result = dp.eggDrop(2, 4);
+		result = dp.minCut("abcba");
 		System.out.println(result);
 	}
 

@@ -44,4 +44,74 @@ public class Solution {
     }
     
     // Leetcode: 
+    public void setZeroes(int[][] matrix) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        int i,j,k;
+        int rowLen = matrix.length - 1;
+        int colLen = matrix[0].length - 1;
+        
+        k = 1;
+        
+        for (i = 0; i <= rowLen; i++)
+        {
+        	for(j = 0; j<= colLen; j++)
+        	{
+        		if(0 == matrix[i][j])
+        		{
+
+    				matrix[0][j] = 0;
+    				if(i == 0)
+    				{
+    					k = 0;
+    				}
+    				else
+    				{
+    					matrix[i][0] = 0;
+    				}
+        		}
+        	}
+        }
+        
+        for (j = 1; j <= colLen; j++)
+        {
+        	if(matrix[0][j] == 0 )
+        	{
+        		for(i = 1; i<=rowLen; i++)
+        		{
+        			matrix[i][j] = 0;
+        		}
+        	}
+        }
+        
+        for (i = 1; i <= rowLen; i++)
+        {
+        	if(matrix[i][0] == 0 )
+        	{
+        		for(j = 1; j<=colLen; j++)
+        		{
+        			matrix[i][j] = 0;
+        		}
+        	}
+        }
+        
+        if (matrix[0][0]==0)
+        {
+    		for(i = 0; i<=rowLen; i++)
+    		{
+    			matrix[i][0] = 0;
+    		}
+        }       
+        if (k==0)
+        {
+    		for(j = 0; j<=colLen; j++)
+    		{
+    			matrix[0][j] = 0;
+    		}
+        }
+    }
+    
+    public static void main(String[] args){
+
+    }
 }
