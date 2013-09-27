@@ -5,11 +5,15 @@ import java.util.Iterator;
 
 public class GraphVertix {
 	private int v;
-	private ArrayList<GraphVertix> adj = new ArrayList<GraphVertix>();
+	private ArrayList<GraphVertix> adj;
+	private int visited;
 	
 	public GraphVertix(int v)
 	{
-		this.setV(v);
+		setV(v);
+		setVisited(0);
+		adj =  new ArrayList<GraphVertix>();
+		
 	}
 	
 	public void addNeighbour(GraphVertix v2)
@@ -68,6 +72,24 @@ public class GraphVertix {
 		{
 			System.out.printf("\t%s\n", iter.next().toString());
 		}
+	}
+
+	public int getVisited() {
+		return visited;
+	}
+
+	public void setVisited(int visited) {
+		this.visited = visited;
+	}
+	
+	public boolean checkVisited()
+	{
+		return (getVisited() == 1);
+	}
+	
+	public void visited()
+	{
+		setVisited(1);
 	}
 	
 }

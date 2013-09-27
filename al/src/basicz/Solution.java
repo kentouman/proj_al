@@ -1,6 +1,45 @@
 package basicz;
 
 public class Solution {
+	
+	public int sqrt(int n)
+	{
+		int x = (int) (Math.pow(2, Math.ceil(numbits(n) / 2)));
+		while(true)
+		{
+			int y = (int) (Math.floor((x + Math.floor(n / x)) / 2));
+			if(y >= x)
+			{
+				return x;
+			}
+			x = y;
+		}
+	}
+	
+	public int numbits(int n)
+	{
+		int i = 0;
+		while(n != 0)
+		{
+			i++;
+			n = n/2;
+		}
+		return i;
+	}
+	
+	public long fib(int n)
+	{
+		long now = 1;
+		long prev = 0;
+		
+		for(int i = 0; i < n; i++)
+		{
+			now = now + prev;
+			prev = now - prev;
+		}
+		
+		return now;
+	}
 	// Leetcode: Sort Color
     public void sortColors(int[] A) {
         // Start typing your Java solution below
@@ -112,6 +151,10 @@ public class Solution {
     }
     
     public static void main(String[] args){
-
+    	Solution s = new Solution();
+    	for(int i = 1 ; i < 100; i++)
+    	{
+    		System.out.println(i + " : " + s.sqrt(i));
+    	}
     }
 }

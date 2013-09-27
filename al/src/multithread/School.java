@@ -1,9 +1,11 @@
 package multithread;
 
+import java.util.ArrayList;
+
 public class School implements Runnable{
 	public String name;
 	int count;
-	final static int TESTROUND = 50;
+	final static int TESTROUND = 500;
 	final static int DELAY = 100;
 	
 	public School(String name)
@@ -14,7 +16,7 @@ public class School implements Runnable{
 	synchronized private void increase()
 	{
 		int temp = count;
-		int temp2 = temp+1;
+		int temp2 = temp+3;
 		count = temp2;
 	}
 	
@@ -23,6 +25,26 @@ public class School implements Runnable{
 		System.out.println(Thread.currentThread().getName() + ':' + count);
 	}
 	
+	private void doRun()
+	{
+		int max = 1000000;
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		
+		for(int i = 0; i < max; i++)
+		{
+			for(int j = 0; j < max; j++)
+			{
+				for(int k = 0; k < max; k++)
+				{
+					for(int l = 0; l < max; l++)
+					{
+						//temp.add(i+j+k+l);
+					}
+				}
+			}
+		}
+		
+	}
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -30,6 +52,7 @@ public class School implements Runnable{
 		{
 			increase();
 			print();
+			//doRun();
 		}	
 		/*
 		try

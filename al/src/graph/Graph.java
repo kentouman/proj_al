@@ -1,5 +1,6 @@
 package graph;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +21,14 @@ public class Graph {
 	public void addVertix(int v)
 	{
 		vertices.add(new GraphVertix(v));
+	}
+	
+	public void clearVisited()
+	{
+		for(GraphVertix v : vertices)
+		{
+			v.setVisited(0);
+		}
 	}
 	
 	public GraphVertix getVertix(int v)
@@ -46,42 +55,75 @@ public class Graph {
 		vertices.get(v1).addNeighbour(vertices.get(v2));
 	}
 	
-	public boolean bfs(int v)
+	public boolean dfs(int target)
 	{
-		QueueLL<GraphVertix> q = new QueueLL<GraphVertix>();
-		HashMap<GraphVertix, Integer> color = new HashMap<GraphVertix, Integer>();
-		boolean isFound = false;
-		
-		for(int i = 0; i < vertices.size(); i++)
-		{
-			color.put(vertices.get(i), 0); // white
-		}
-		
 		GraphVertix s = getVertix(0);
-		color.put(s, 1);
-		q.enqueue(s);
+		clearVisited();
+		
+		return doDFS(s, target);
+		
+	}
+	
+	
+	public boolean doDFS(GraphVertix q, int target)
+	{
+		q.visited();
+		
+		if(q.getV() == target)
+		{
+			System.out.printf("found %d at Node %d\n", target, q.getV());
+			return true;
+		}
+		else
+		{
+			System.out.printf("Not found %d at Node %d\n", target, q.getV());
+			
+			for(GraphVertix v : q.getNeighbours())
+			{
+				if(!v.checkVisited())
+				{
+					if(doDFS(v,target))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+	}
+	
+	public boolean bfs(int target)
+	{
+		
+		ArrayDeque<GraphVertix> q = new ArrayDeque<GraphVertix>();
+		boolean isFound = false;
+
+		clearVisited();
+
+		GraphVertix s = getVertix(0);
+		
+		s.visited();
+		
+		q.add(s);
 		
 		while(!q.isEmpty())
 		{
-			GraphVertix temp = q.dequeue().getVal();
-			if (temp.getV() == v)
+			GraphVertix temp = q.poll();
+			if (temp.getV() == target)
 			{
-				System.out.printf("Found %d at Node %d\n", v, temp.getV());
+				System.out.printf("Found %d at Node %d\n", target, temp.getV());
 				isFound = true;
 				break;
 			}
 			else
 			{
-				System.out.printf("Not found %d at Node %d\n", v, temp.getV());
-				color.put(temp, 2);
-				Iterator<GraphVertix> iter = temp.getNeighbours().iterator();
-				while(iter.hasNext())
+				System.out.printf("Not found %d at Node %d\n", target, temp.getV());
+				for(GraphVertix v : temp.getNeighbours())
 				{
-					GraphVertix n = iter.next();
-					if(color.get(n) == 0)
+					if(!v.checkVisited())
 					{
-						q.enqueue(n);
-						color.put(n, 1);
+						v.visited();
+						q.add(v);
 					}
 				}
 			}
@@ -89,7 +131,7 @@ public class Graph {
 		
 		if(!isFound)
 		{
-			System.out.printf("Could not find %d\n", v);
+			System.out.printf("Could not find %d\n", target);
 		}
 		
 		return isFound;

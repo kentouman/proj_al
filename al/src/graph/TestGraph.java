@@ -31,7 +31,7 @@ public class TestGraph {
 		
 		g.displayAll();
 		
-		g.bfs(5);
-		g.bfs(11);
+		g.dfs(5);
+		//g.bfs(11);
 	}
 }
