@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Stack;
+
 import linkedlist.QueueLL;
 
 // directed graph 
@@ -60,7 +62,7 @@ public class Graph {
 		GraphVertix s = getVertix(0);
 		clearVisited();
 		
-		return doDFS(s, target);
+		return doDFSInteratively(s, target);
 		
 	}
 	
@@ -90,6 +92,37 @@ public class Graph {
 			}
 			return false;
 		}
+	}
+	
+	public boolean doDFSInteratively(GraphVertix q, int target)
+	{
+		Stack<GraphVertix> stack = new Stack<GraphVertix>();
+		
+		q.visited();
+		stack.push(q);
+		GraphVertix n = null;
+		
+		while(!stack.isEmpty())
+		{
+			n = stack.pop();
+			if(n.getV() == target)
+			{
+				System.out.printf("found %d at Node %d\n", target, n.getV());
+				return true;
+			}
+			System.out.printf("Not found %d at Node %d\n", target, n.getV());
+			for(GraphVertix v : n.getNeighbours())
+			{
+				if(!v.checkVisited())
+				{
+					v.visited();
+					stack.push(v);
+				}
+			}
+			
+		}
+		
+		return false;
 	}
 	
 	public boolean bfs(int target)
