@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
@@ -453,24 +454,126 @@ public class Solution
 		System.out.println(Arrays.toString(a));
 	}
 	
+	public ListNode mergeSort(ListNode head)
+	{
+		if(head == null)
+		{
+			return null;
+		}
+		
+		if(head.next == null)
+		{
+			return head;
+		}
+		
+		int len = 0;
+		ListNode temp = head;
+		
+		while(temp != null)
+		{
+			temp = temp.next;
+			len++;
+		}
+		
+		ListNode tail = head;
+
+		
+		for(int i = 0; i < len / 2 - 1; i++)
+		{
+			tail = tail.next;
+		}
+		ListNode h2 = tail.next;
+		tail.next = null;
+		ListNode h1 = head;
+		
+		h1 = mergeSort(h1);
+		h2 = mergeSort(h2);
+		return merge(h1, h2);
+	}
+	
+	public ListNode merge(ListNode head1, ListNode head2)
+	{
+		if(head1 == null && head2 == null)
+		{
+			return null;
+		}
+		else if(head1 == null)
+		{
+			return head2;
+		}
+		else if(head2 == null)
+		{
+			return head1;
+		}
+		
+		ListNode head = null;
+		ListNode peer = null;
+		if(head1.val <= head2.val)
+		{
+			head = head1;
+			peer = head2;
+		}
+		else
+		{
+			head = head2;
+			peer = head1;
+		}
+		
+		ListNode cur = head;
+		
+		while(cur.next != null && peer != null)
+		{
+			if(cur.next.val <= peer.val)
+			{
+				cur = cur.next;
+			}
+			else
+			{
+				ListNode temp = cur.next;
+				cur.next = peer;
+				peer = temp;
+			}
+		}
+		
+		if(peer != null)
+		{
+			cur.next = peer;
+		}
+		
+		return head;
+	}
+	
 
 	public static void main(String[] args) throws InterruptedException
 	{
 		Solution z = new Solution();
 	
+		ListNode head = new ListNode(0);
+		ListNode cur = head;
+		for(int i = 0; i < 20; i++)
+		{
+			Random rand = new Random();
+			cur.next = new ListNode(rand.nextInt(100));
+			cur = cur.next;
+		}
 		
-		ArrayList<Integer> a = new ArrayList<Integer>();
-		ArrayList<Integer> b = new ArrayList<Integer>();
-		a.add(1);
-		a.add(2);
-		b.add(1);
-		b.add(2);
-		HashSet<ArrayList<Integer>> set = new HashSet<ArrayList<Integer>>();
+		cur = head;
+		while(cur!=null)
+		{
+			System.out.print(cur.val + " -- ");
+			cur = cur.next;
+		}
+		System.out.println();
 		
-		set.add(a);
+		head = z.mergeSort(head);
 		
+		cur = head;
+		while(cur!=null)
+		{
+			System.out.print(cur.val + " -- ");
+			cur = cur.next;
+		}
+		System.out.println();
 		
-		System.out.println(set.contains(b));
 	}
 }
-

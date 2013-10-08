@@ -51,6 +51,51 @@ public class RabinKarp extends StringMatch{
 		
 	}
 	
-	
+	static public int isMatch(String s, String w)
+	{
+	    int wordLen = w.length();
+	    int strLen = s.length();
+	    
+	    int strHash = 0;
+	    int wordHash = 0;
+	    int q = 13; //prime number
+	    int qmod = 1;
+	    
+	    for(int i = 0; i < wordLen; i++)
+	    {
+	        qmod = qmod * q;
+	    }
+	    
+	    for(int i = 0; i < wordLen; i++)
+	    {
+	        wordHash = (wordHash * q + w.charAt(i)) % qmod;
+	    }
+	    
+	    for(int i = 0; i < wordLen; i++)
+	    {
+	        strHash = (strHash * q + s.charAt(i)) % qmod;
+	    }
+	    
+	    for(int i = 0; i <= strLen - wordLen; i++)
+	    {
+	        if(wordHash == strHash)
+	        {
+	            if(s.substring(i, i + wordLen).equals(w))
+	            {
+	                return i;
+	            }
+	        }
+	        else if(i + wordLen < strLen)
+	        {
+	            strHash = (strHash * q + s.charAt(i + wordLen)) % qmod;
+	        }
+	    }
+	    
+	    return -1;
+	}	
 
+	public static void main(String[] args)
+	{
+		System.out.println(isMatch("abcdef","df"));
+	}
 }

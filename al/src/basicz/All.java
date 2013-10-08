@@ -1,13 +1,47 @@
 package basicz;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class All {
 	public static void main(String[] args)
 	{
 		All all = new All();
-		all.printPrime(100);
+		//all.printPrime(100);
+		
+		int[] array = {7, 9, 10, -2, 2,3,5};
+		//System.out.println(all.BinarySearchRotated(array, 5));
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		
+		int[] a = {};
+		int[] b = {};
+		
+		System.out.println(all.checkArray3(a, b));
+		
+		String[] x = all.testRegex("He2llo  Word", "\\s+|\\d");
+		for(int i = 0; i < x.length; i++)
+		{
+			System.out.println(x[i]);
+		}
+		
+		System.out.println("==============");
+		
+		all.testRegex2("Hel2lo  World", "[a-zA-Z]+");
+		
+		for(int i = 20; i < 40; i++)
+		{
+			System.out.println(i + " --> " + all.findCloset(i));
+		}
+		
 	}
 	
 	// print all prime numbers not greater than input n
@@ -306,4 +340,208 @@ public class All {
 		}
 	}
 
+    
+    boolean BinarySearchRotated(int[] array, int target)
+    {
+        int len = array.length;
+        if(len == 0)
+        {
+            return false;
+        }
+        
+        
+        // find the start of rotated sorted array
+        int pivot = 0;
+        for(int i = 0; i < len - 1; i++)
+        {
+            if(array[i] > array[i+1])
+            {
+                pivot = i + 1;
+            }
+        }
+        
+        int start = 0;
+        int end = len - 1;
+        int mid = 0;
+        
+        while(start <= end)
+        {
+            mid = (start + end) / 2;
+            if(target == array[(mid + pivot) % len])
+            {
+                return true;
+            }
+            else if(target > array[(mid + pivot) % len])
+            {
+                start = mid + 1;
+            }
+            else
+            {
+                end = mid - 1;
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean checkArray(int[] a, int[] b)
+    {
+    	return checkArrayImpl(a, 0, b, 0);
+    }
+    
+    public boolean checkArrayImpl(int[] a, int indexA, int[]b, int indexB)
+    {
+    	/*====================Termination condition============================*/
+    	if(indexB == b.length)
+    	{
+    		return true;
+    	}
+    	
+    	if(indexA == a.length)
+    	{
+    		return false;
+    	}
+    	
+    	/*======================Recursion path==========================*/    	
+    	if(a[indexA] < b[indexB])     // move a[] forward if cannot find a match but we still have hope
+    	{
+    		return checkArrayImpl(a, indexA + 1, b, indexB);
+    	}
+    	else if(a[indexA] == b[indexB])
+    	{
+    		return checkArrayImpl(a, indexA + 1, b, indexB + 1);  // move both forward if found a match
+    	}
+    	else    // never gonna happen
+    	{
+    		return false;
+    	}
+    }
+    
+    public boolean checkArray2(int[] a, int[] b){
+        int lena=a.length;
+        int lenb=b.length;
+        
+        if (lena==0){
+            return false;
+        }
+        if (lenb==0){
+            return true;
+        }
+        if ((a[lena-1]<b[lenb-1]) || (a[0]>b[0])){
+            return false;
+        }
+        
+        int j=0;
+        for (int i=0;i<lenb;i++){
+            boolean flag=false;
+            for (;j<lena;j++){
+                if (b[i]==a[j]){
+                    j=j+1;
+                    flag=true;
+                    break;
+                }           
+            }
+            if (flag==false){
+                return false;
+            }   
+        }
+        
+        return true; 
+        
+    }
+    public boolean checkArray3(int[] a, int[] b){
+        int lena=a.length;
+        int lenb=b.length;
+        
+        if (lenb==0){
+            return true;
+        }
+        if (lena < lenb){
+            return false;
+        }
+        
+        int indexA = 0;
+        int indexB = 0;
+        
+        // core logic
+        while(indexA < lena && indexB < lenb)
+        {
+            if(a[indexA] > b[indexB])
+            {
+                return false;
+            }
+            else if(a[indexA] == b[indexB])
+            {
+                indexA++;
+                indexB++;
+            }
+            else
+            {
+                indexA++;
+            }
+        }
+        
+        // returning 
+        if (indexB == lenb)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+    
+    public String[] testRegex(String s, String separater)
+    {
+    	return s.split(separater);
+    }
+    
+    public void testRegex2(String s, String pattern)
+    {
+    	Pattern p = Pattern.compile(pattern);
+    	
+    	Matcher m = p.matcher(s);
+    	
+    	while(m.find())
+    	{
+    		System.out.println(m.group());
+    	}
+    }
+    
+    public int findCloset(int a)
+    {
+    	int one = a % 10;
+    	int ten = a / 10;
+    	
+    	int temp1 = 11 - (one - ten);
+    	int temp2 = Math.max(one - ten, ten - one);
+    	int temp3 = 11 - (ten - one);
+    	
+    	
+    	if(temp1 <= temp2)
+    	{
+    		if(temp1 <= temp3)
+    		{
+    			return (ten+1) * 10 + ten+1;
+    		}
+    		else
+    		{
+    			return (ten-1) * 10 + ten - 1;
+    		}
+    	}
+    	else
+    	{
+    		if(temp2 <= temp3)
+    		{
+    			return ten* 10 + ten;
+    		}
+    		else
+    		{
+    			return (ten-1) * 10 + ten - 1;
+    		}
+    	}
+    }
+    
 }
