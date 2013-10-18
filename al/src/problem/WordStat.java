@@ -1,4 +1,4 @@
-package basicz;
+package problem;
 
 import java.io.*;
 import java.util.*;

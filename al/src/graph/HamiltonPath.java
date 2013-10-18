@@ -1,4 +1,4 @@
-package basicz;
+package graph;
 
 
 public class HamiltonPath {

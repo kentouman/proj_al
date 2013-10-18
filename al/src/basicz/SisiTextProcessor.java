@@ -12,7 +12,7 @@ package basicz;
 import java.io.*;
 import java.util.*;
 
-public class TextProcessor{ 
+public class SisiTextProcessor{ 
 
  public String findWord(String fileName){
      FileReader r = null;
@@ -87,7 +87,7 @@ public class TextProcessor{
  
  public static void main(String[] args){
  
-     TextProcessor t = new TextProcessor();
+     SisiTextProcessor t = new SisiTextProcessor();
      System.out.println(t.findWord("c:\\sisi.txt"));
  }
 }
