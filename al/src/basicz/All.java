@@ -42,8 +42,78 @@ public class All {
 			System.out.println(i + " --> " + all.findCloset(i));
 		}
 		
+		System.out.println(all.longestCommonSubsequence("1234567890", "33858779770"));
+		
+		
+		for(int i = 1; i < 100; i++)
+		{
+			System.out.println("Sqrt(" + i + ") = " + all.sqrt2(i));
+		}
 	}
 	
+	
+	
+	public int longestCommonSubstring(String a, String b)
+	{
+		int lenA = a.length();
+		int lenB = b.length();
+		int[][] m = new int[lenA][lenB];
+		
+		m[0][0] = a.charAt(0) == b.charAt(0) ? 1 : 0;
+		
+		for(int i = 1; i < lenA; i++)
+		{
+			m[i][0] = a.charAt(i) == b.charAt(0) ? 1 : m[i-1][0];
+		}
+		for(int i = 1; i < lenB; i++)
+		{
+			m[0][i] = b.charAt(i) == a.charAt(0) ? 1 : m[0][i-1];
+		}
+		
+		for(int i = 1; i < lenA; i++)
+		{
+			for(int j = 1; j < lenB; j++)
+			{
+				int temp = Math.max(m[i-1][j], m[i][j-1]);
+				m[i][j] = a.charAt(i) == b.charAt(j) ? m[i-1][j-1] + 1 : temp;
+ 			}
+		}
+		
+		
+		
+		return m[lenA-1][lenB-1];
+
+	}
+	
+	public int longestCommonSubsequence(String a, String b)
+	{
+		int lenA = a.length();
+		int lenB = b.length();
+		int[][] m = new int[lenA][lenB];
+		
+		m[0][0] = a.charAt(0) == b.charAt(0) ? 1 : 0;
+		
+		for(int i = 1; i < lenA; i++)
+		{
+			m[i][0] = a.charAt(i) == b.charAt(0) ? 1 : m[i-1][0];
+		}
+		for(int i = 1; i < lenB; i++)
+		{
+			m[0][i] = b.charAt(i) == a.charAt(0) ? 1 : m[0][i-1];
+		}
+		
+		for(int i = 1; i < lenA; i++)
+		{
+			for(int j = 1; j < lenB; j++)
+			{
+				int temp = Math.max(m[i-1][j], m[i][j-1]);
+				m[i][j] = a.charAt(i) == b.charAt(j) ? m[i-1][j-1] + 1 : temp;
+ 			}
+		}
+		
+		return m[lenA-1][lenB-1];
+	}
+		
 	// print all prime numbers not greater than input n
 	public void printPrime(int max)
 	{
@@ -100,6 +170,22 @@ public class All {
 			}
 			x = y;
 		}
+	}
+	
+	public int sqrt2(int n)
+	{
+		double now = n / 2;
+		double prev = 0;
+		
+		while((int) now != (int) prev)
+		{
+			prev = now;
+			now = now - (now * now - n) / (2 * now);
+		}
+		
+		int ceil = (int) Math.ceil(now);
+		int floor = (int) Math.floor(now);
+		return ceil * ceil - n <= n - floor * floor ? ceil : floor;
 	}
 	
 	public int numbits(int n)
@@ -543,5 +629,6 @@ public class All {
     		}
     	}
     }
+   
     
 }

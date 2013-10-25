@@ -1,70 +1,63 @@
 package leetcode;
 
+import java.util.Stack;
+
 public class TestRun {
 	
 
 	public static void main(String[] args)
 	{
 		TestRun a = new TestRun();
-		ListNode b = new ListNode(1);
-		b.next = new ListNode(2);
-		b.next.next = new ListNode(3);
 		
-		a.reverseKGroup(b, 2);
+		String c = a.simplifyPath("/.hidden");
+		System.out.println(c);
 	}
 	
-    public ListNode reverseKGroup(ListNode head, int k) {
-        // Start typing your Java solution below
-        // DO NOT write main() function
-        
-        if(k < 2)
+	public String simplifyPath(String path) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        String[] list = path.split("/+");
+        for(int i = 1; i < list.length; i++)
         {
-        	return head;
+        	System.out.println(list[i]);
         }
-    	
-        ListNode temp = new ListNode(0);
-        temp.next = head;
-        head = temp;
+        Stack<String> result = new Stack<String>();
         
-        while(temp.next != null)
+        for(int i = 1; i < list.length; i++)
         {
-            //check if the rest has at least k nodes
-            boolean lessThanK = false;
-            ListNode temp2 = temp.next;
-            for(int i = 0; i < k; i++)
+            if(list[i].equals(".."))
             {
-                if (temp2 == null)
-                {
-                    lessThanK = true;
-                    break;
-                }
-                temp2 = temp2.next;
+            	if(!result.isEmpty())
+            		result.pop();
             }
-            if(lessThanK)
+            else if(list[i].equals("."))
             {
-                break;
+            
             }
-            
-            // now that it has at least k nodes, do the reverse
-            
-            temp2 = temp.next;
-            ListNode temp3 = temp2.next;
-            ListNode temp4 = temp3.next;
-            
-            for(int i = 0; i < k - 1; i++)
+            else
             {
-                temp4 = temp3.next;
-                temp3.next = temp2;
-                temp2 = temp3;
-                temp3 = temp4;
+                result.push(list[i]);
             }
-            
-            temp = temp.next;
-            temp.next = temp4;
-
         }
         
-        return head.next;
+        Stack<String> reverseList = new Stack<String>();
+        while(!result.isEmpty())
+        {
+            reverseList.push(result.pop());
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while(!reverseList.isEmpty())
+        {
+            sb.append("/");
+            sb.append(reverseList.pop());
+        }
+        
+        if(sb.length() == 0)
+        {
+            return "/";
+        }
+        return sb.toString();
     }
     
 }
